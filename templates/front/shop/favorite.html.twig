@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? ('Shops!'|trans) : ('Nearby Shops!'|trans) }}{% endblock %}
+{% block title %}{{ 'Favorite Shops!'|trans }}{% endblock %}
 
 {% block body %}
     {% if shops|length %}
         <div class="row row-eq-height shops px-3">
             {% set shop_btn_class = is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'disabled' %}
             {% for shop in shops %}
-                {% include 'includes/_shop_row.html.twig' %}
+                {% include 'includes/_shop_favorite_row.html.twig' %}
             {% endfor %}
         </div>
     {% else %}
         <div class="h3 bg-warning mt-5 py-3 text-center col-md-10 offset-md-1">
-            {{ 'There are no shops here!'|trans }}
+            {{ 'There are no preferred shops yet!'|trans }}
         </div>
     {% endif %}
-{% endblock %}
+{% endblock body %}

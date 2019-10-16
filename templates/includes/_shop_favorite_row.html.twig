@@ -1,0 +1,4 @@
+{% extends 'includes/_shop_row.html.twig' %}
+{% block btns %}
+    <a class="btn btn-sm btn-outline-danger w-100 mr-4 {{ shop_btn_class }}" href="{{ path('shop_unlike', {id: shop.id}) }}" role="button">{{ 'Remove frome favorite' }}</a>
+{% endblock btns %}

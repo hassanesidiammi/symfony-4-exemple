@@ -75,6 +75,32 @@ class User extends BaseUser
 
     /**
      * @param Shop $shop
+     * @return User
+     */
+    public function removeFavoriteShop(FavoriteShop $favoriteShop): self
+    {
+        $this->favoriteShops->remove($favoriteShop);
+
+        return $this;
+    }
+
+    /**
+     * @param Shop $shop
+     * @return User
+     */
+    public function getFavoriteFromShop(Shop $shop): FavoriteShop
+    {
+        foreach ($this->favoriteShops as $favoriteShop) {
+            if ($shop == $favoriteShop->getShop()) {
+                return $favoriteShop;
+            }
+        };
+
+        return false;
+    }
+
+    /**
+     * @param Shop $shop
      *
      * @return bool
      */

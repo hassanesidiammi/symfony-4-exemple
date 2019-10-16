@@ -25,6 +25,21 @@ class ShopController extends AbstractController
             'shops' => $shops,
         ]);
     }
+    /**
+     * @Route("/preferred", name="shop_preferred")
+     */
+    public function preferred(ShopRepository $shopRepository)
+    {
+        $shops = array_map(
+            function (FavoriteShop $favoriteShop) {
+                return $favoriteShop->getShop();
+            },
+            $this->getUser()->getFavoriteShops()->toArray());
+
+        return $this->render('front/shop/favorite.html.twig', [
+            'shops' => $shops,
+        ]);
+    }
 
     /**
      * @Route("/shop/{id}/like", name="shop_like")
@@ -45,6 +60,25 @@ class ShopController extends AbstractController
         }
 
         return new RedirectResponse($this->generateUrl('home'));
+    }
+
+    /**
+     * @Route("/shop/{id}/unlike", name="shop_unlike")
+     */
+    public function unlike(Shop $shop)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($favoriteShop = $user->getFavoriteFromShop($shop)) {
+            $this->getDoctrine()->getManager()->remove($favoriteShop);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', "\"{$shop->getTitle()}\" Was added to Preferred shops!");
+        } else {
+            $this->addFlash('warning', "\"{$shop->getTitle()}\" Is NOT in your Preferred shops!");
+        }
+
+        return new RedirectResponse($this->generateUrl('shop_preferred'));
     }
 
     /**
