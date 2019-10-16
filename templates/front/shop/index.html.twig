@@ -3,6 +3,16 @@
 {% block title %}{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? ('Shops!'|trans) : ('Nearby Shops!'|trans) }}{% endblock %}
 
 {% block body %}
+    {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="alert alert-warning alert-dismissible fade show col-12 text-center" role="alert">
+            <a class="btn-link" href="{{ url('fos_user_security_login') }}">{{ 'Sign in'|trans }}</a> {{ 'or'|trans }}
+            <a class="btn-link" href="{{ url('fos_user_security_login') }}">{{ 'Sign up to view Nearby Shops !'|trans }}</a>
+            {{ 'to view Nearby Shops !'|trans }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
     {% if shops|length %}
         <div class="row row-eq-height shops px-3">
             {% set shop_btn_class = is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'disabled' %}
