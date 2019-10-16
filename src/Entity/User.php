@@ -26,7 +26,7 @@ class User extends BaseUser
     protected $location;
 
     /**
-     * @ORM\OneToMany(targetEntity="FavoriteShop", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="FavoriteShop", mappedBy="user", cascade={"persist", "remove"})
      */
     protected $favoriteShops;
 
@@ -137,8 +137,31 @@ class User extends BaseUser
      */
     public function addDislikedShop(Shop $shop): self
     {
-        $this->dislikedShops->add($shop);
+        $dislikedShop = $this->getDislikedFromShop($shop);
+        if (!$dislikedShop) {
+            $dislikedShop = new DislikedShop();
+            $dislikedShop->setShop($shop);
+            $dislikedShop->setUser($this);
+        }
+        $dislikedShop->setDislikedAt(new \DateTime());
+        $this->dislikedShops->add($dislikedShop);
+
         return $this;
+    }
+
+    /**
+     * @param Shop $shop
+     * @return User
+     */
+    public function getDislikedFromShop(Shop $shop)
+    {
+        foreach ($this->dislikedShops as $dislikedShop) {
+            if ($shop == $dislikedShop->getShop()) {
+                return $dislikedShop;
+            }
+        };
+
+        return false;
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Controller\Front;
 
 use App\Entity\FavoriteShop;
-use App\Entity\Location;
 use App\Entity\Shop;
 use App\Entity\User;
 use App\Repository\ShopRepository;
@@ -19,7 +18,12 @@ class ShopController extends AbstractController
      */
     public function index(ShopRepository $shopRepository)
     {
-        $shops = $this->getUser() ? $shopRepository->findNotFavorite($this->getUser()) : $shopRepository->findBy([], ['createdAt' => 'DESC']);
+        $hideUntil = new \DateTime();
+        $hideUntil->modify('-2 hours');
+
+        $shops = $this->getUser() ?
+            $shopRepository->findNotFavorite($this->getUser(), $hideUntil) :
+            $shopRepository->findBy([], ['createdAt' => 'DESC']);
 
         return $this->render('front/shop/index.html.twig', [
             'shops' => $shops,
@@ -50,7 +54,6 @@ class ShopController extends AbstractController
         $user = $this->getUser();
 
         try {
-            $favoriteShop = new FavoriteShop();
             $user->addFavoriteShop($shop);
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', "\"{$shop->getTitle()}\" Was added to Preferred shops!");
@@ -73,7 +76,7 @@ class ShopController extends AbstractController
         if ($favoriteShop = $user->getFavoriteFromShop($shop)) {
             $this->getDoctrine()->getManager()->remove($favoriteShop);
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', "\"{$shop->getTitle()}\" Was added to Preferred shops!");
+            $this->addFlash('success', "\"{$shop->getTitle()}\" Was removed from Preferred shops!");
         } else {
             $this->addFlash('warning', "\"{$shop->getTitle()}\" Is NOT in your Preferred shops!");
         }
@@ -88,11 +91,11 @@ class ShopController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $user->addFavoriteShops($shop);
+        $user->addDislikedShop($shop);
 
         $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash('success', "\"{$shop->getTitle()}\" Was added to Preferred shops!");
+        $this->addFlash('success', "\"{$shop->getTitle()}\" Was disliked!");
 
         return new RedirectResponse($this->generateUrl('home'));
     }

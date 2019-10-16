@@ -24,22 +24,21 @@ class ShopRepository extends ServiceEntityRepository
 
     public function getWithJoinsQab(User $user)
     {
+        $userPoint = $user->getLocation()->getPoint();
+
         return $this->createQueryBuilder('s')
             ->select()
             ->leftJoin('s.favoriteShops', 'f')
             ->addSelect('f')
             ->leftJoin('f.user', 'u')
             ->addSelect('u')
-            ->where('f IS NULL OR u != :user')
-            ->setParameter('user', $user)
-            ;
-    }
 
-    public function findNotFavorite(User $user)
-    {
-        $userPoint = $user->getLocation()->getPoint();
+            ->leftJoin('s.dislikedShop', 'd')
+            ->addSelect('d')
+            ->leftJoin('f.user', 'ud')
+            ->addSelect('ud')
 
-        $results = $this->getWithJoinsQab($user)
+
             ->leftJoin('u.location', 'ul')
             ->leftJoin('s.location', 'sl')
             ->addSelect('ST_Distance(Point(X(sl.point), Y(sl.point)), Point(:lat, :lng)) distance')
@@ -47,6 +46,16 @@ class ShopRepository extends ServiceEntityRepository
             ->addSelect('Y(sl.point) Y')
             ->setParameter('lat', $userPoint->getX())
             ->setParameter('lng', $userPoint->getY())
+            ;
+    }
+
+    public function findNotFavorite(User $user, $hideUntil)
+    {
+        $results = $this->getWithJoinsQab($user)
+            ->where('f IS NULL OR u != :user')
+            ->andWhere('d IS NULL OR d.dislikedAt < :hideUntil')
+            ->setParameter('user', $user)
+            ->setParameter('hideUntil', $hideUntil)
             ->orderBy('distance', 'ASC')
             ->getQuery()
             ->getArrayResult();

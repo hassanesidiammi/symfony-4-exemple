@@ -42,6 +42,11 @@ class Shop
     protected $favoriteShops;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DislikedShop", mappedBy="shop")
+     */
+    protected $dislikedShop;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;

@@ -12,6 +12,10 @@ header .navbar, header nav {
 
 main.container {
     min-height: 32rem;
+    .pb-5, .py-5 {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 .register {
     min-height: 15rem;

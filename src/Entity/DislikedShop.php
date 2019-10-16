@@ -19,18 +19,71 @@ class DislikedShop
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="dislikedShops")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="user_id", nullable=false)
      */
     protected $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Shop")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="shop_id", nullable=false)
      */
     protected $shop;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dislikedAt;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     * @return DislikedShop
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    /**
+     * @param mixed $shop
+     * @return DislikedShop
+     */
+    public function setShop($shop)
+    {
+        $this->shop = $shop;
+        return $this;
+    }
+
+    public function getDislikedAt(): ?\DateTimeInterface
+    {
+        return $this->dislikedAt;
+    }
+
+    public function setDislikedAt(\DateTimeInterface $dislikedAt): self
+    {
+        $this->dislikedAt = $dislikedAt;
+
+        return $this;
     }
 }
