@@ -1,7 +1,7 @@
 const $ = require('jquery');
 
-require('@fortawesome/fontawesome-free');
-require('bootstrap');
+require('@fortawesome/fontawesome-free/js/all');
+require('bootstrap/js/src');
 
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();

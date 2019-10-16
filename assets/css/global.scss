@@ -1,8 +1,11 @@
 $primary: darken(blue, 10%);
+
 $secondary: mix(darken(green, 15%), lighten(red, 25%));
 $secondary: mix(darken($secondary, 10%), $primary);
 $secondary: lighten($secondary, 10%);
 
 @import "~bootstrap/scss/bootstrap";
+
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
 @import "app.scss";
