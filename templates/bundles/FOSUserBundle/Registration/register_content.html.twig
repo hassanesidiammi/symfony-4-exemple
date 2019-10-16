@@ -1,0 +1,46 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+<div class="container">
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register location-wrapper'}}) }}
+    <div class="col-md-5 float-left">
+        <div class="form-row mb-3">
+            {{- form_errors(form.email) -}}
+            {{- form_widget(form.email) -}}
+            {{- form_help(form.email) -}}
+        </div>
+        <div class="form-row mb-3">
+            {{- form_errors(form.username) -}}
+            {{- form_widget(form.username) -}}
+            {{- form_help(form.username) -}}
+        </div>
+        <div class="form-row mb-3">
+            {{- form_label(form.plainPassword, 'form.password'|trans, {'label_attr': {'class': 'col-12 col-sm-12'}}) -}}
+            {{- form_errors(form.plainPassword) -}}
+            {{- form_errors(form.plainPassword.first) -}}
+            {{- form_errors(form.plainPassword.second) -}}
+            {{- form_widget(form.plainPassword) -}}
+            {{- form_help(form.plainPassword) -}}
+        </div>
+        <div class="form-row mb-3">
+            {{- form_errors(form.location.latitude) -}}
+            {{- form_label(form.location.latitude, null, {'label_attr': {'class': 'col-md-3'}}) -}}
+            {{- form_widget(form.location.latitude, {'attr': {'class': 'col-md-9 latitude'}}) -}}
+            {{- form_help(form.location.latitude) -}}
+        </div>
+        <div class="form-row mb-3">
+            {{- form_errors(form.location.longitude) -}}
+            {{- form_label(form.location.longitude, null, {'label_attr': {'class': 'col-md-3'}}) -}}
+            {{- form_widget(form.location.longitude, {'attr': {'class': 'col-md-9 longitude'}}) -}}
+            {{- form_help(form.location.longitude) -}}
+        </div>
+    </div>
+    <div class="form-line float-right col-md-6 offset-md-1">
+        <div class="map" style="height: 400px;">
+
+        </div>
+    </div>
+    <div class="col-12 float-right">
+        <input type="submit" value="{{ 'registration.submit'|trans }}" />
+    </div>
+    {{ form_end(form) }}
+</div>

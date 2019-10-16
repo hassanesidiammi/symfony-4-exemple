@@ -26,4 +26,7 @@ doctrine:
                 alias: App
         dql:
             numeric_functions:
-                distance:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Distance
+                ST_Distance: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STDistance
+                Point: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Point
+                X: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\X
+                Y: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Y

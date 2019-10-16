@@ -1,6 +1,28 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'fos_user_registration_register' %}
+        {{ encore_entry_script_tags('location') }}
+    {% endif %}
+{% endblock javascripts%}
+
 {% block body %}
+    {% set flashes = app.request.hasPreviousSession ? app.session.flashbag.all() : null %}
+    {% if flashes %}
+        <div class="col-12">
+            {% for type, messages in flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type ?: 'warning' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
     <div class="col-12">
         {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -10,14 +32,15 @@
     </div>
     {% endif %}
 
-    {% if app.request.hasPreviousSession %}
-        {% for type, messages in app.session.flashbag.all() %}
-            {% for message in messages %}
-                <div class="flash-{{ type }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+    {% if error is defined and error %}
+        <div class="col-12">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
     {% endif %}
 
     <div  class="col-12 d-flex justify-content-center register">

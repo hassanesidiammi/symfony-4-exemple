@@ -13,18 +13,19 @@
 <body>
 {% block header %}
     <header class="mb-5">
-        {% include '_navbar.html.twig' %}
+        {% include 'includes/_navbar.html.twig' %}
     </header>
 {% endblock %}
 <main class="container">
     <div class="row pt-md-3 pt-lg-5">
+        {% include 'includes/_alerts.html.twig' %}
         {% block body %}
         {% endblock body %}
     </div>
 </main>
 
 <footer class="container py-5 mt-4">
-    {% include '_footer.html.twig' %}
+    {% include 'includes/_footer.html.twig' %}
 </footer>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}

@@ -5,3 +5,7 @@ fos_user:
     from_email:
         address: "hsidiammi@gmail.com"
         sender_name: "Hassane SIDI AMMI"
+
+    registration:
+        form:
+            type: App\Form\RegistrationFormType

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? ('Shops!'|trans) : ('Nearby Shops!'|trans) }}{% endblock %}
+
+{% block body %}
+    <div class="row row-eq-height shops px-3">
+        {% set shop_btn_class = is_granted('IS_AUTHENTICATED_REMEMBERED') ? '' : 'disabled' %}
+        {% for shop in shops %}
+            {% include 'includes/_shop_row.html.twig' %}
+        {% endfor %}
+    </div>
+{% endblock %}
