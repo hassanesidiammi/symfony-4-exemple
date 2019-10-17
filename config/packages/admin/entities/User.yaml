@@ -4,10 +4,18 @@ easy_admin:
            class: App\Entity\User
            list:
              title: "Manage %%entity_label%%s"
-             fields: ['id', 'username', 'email', 'location', 'lastLogin']
+             fields: ['id', 'username', 'email', 'location', 'lastLogin', {property: 'favoriteShops', label: 'Likes'}, {property: 'dislikedShops', label: 'dislikes'}]
+             max_results: 10
              actions:
                - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-outline-success' }
                - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-outline-danger' }
            form:
-             fields: ['username', 'email', 'location', 'lastLogin']
-             max_results: 10
+             fields:
+               - username
+               - email
+               - property: 'lastLogin'
+                 type: 'datetime'
+                 type_options: { widget: 'single_text', disabled: true, attr: {readonly: true}}
+               - {property: 'location', type: App\Form\LocationType}
+           templates:
+              edit: 'backend/admin/User.html.twig'

@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="app_location")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Location
 {
@@ -20,14 +22,24 @@ class Location
     protected $id;
 
     /**
-     * @ORM\Column(type="point")
+     * @ORM\Column(type="point", nullable=true)
      * @var Point
      */
     protected $point;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $longitude;
+
     public function __construct(array $option=[])
     {
-        $this->point = $this->createPoint($option);
+        $this->setPoint($this->createPoint($option));
     }
 
     protected function createPoint(?array $option)
@@ -46,33 +58,49 @@ class Location
         return $this->point;
     }
 
-    public function setPoint($point): self
+    public function setPoint(Point $point): self
     {
         $this->point = $point;
+        $this->setLatitude($point->getLatitude());
+        $this->setLongitude($point->getLongitude());
 
         return $this;
     }
 
+    /**
+     * @return float
+     */
     public function getLatitude()
     {
-        return $this->point instanceof  Point ? $this->point->getLatitude() : null;
+        return $this->latitude;
     }
 
-    public function setLatitude($latitude): self
+    /**
+     * @param float $latitude
+     * @return $this
+     */
+    public function setLatitude(float $latitude): self
     {
-        $this->point->setLatitude($latitude);
+        $this->latitude = $latitude;
 
         return $this;
     }
 
+    /**
+     * @return float
+     */
     public function getLongitude()
     {
-        return $this->point instanceof  Point ? $this->point->getLongitude() : null;
+        return $this->longitude;
     }
 
+    /**
+     * @param $longitude
+     * @return $this
+     */
     public function setLongitude($longitude): self
     {
-        $this->point->setLongitude($longitude);
+        $this->longitude = $longitude;
 
         return $this;
     }
@@ -80,5 +108,24 @@ class Location
     public function __toString()
     {
         return sprintf('%s, %s',$this->getPoint()->getLatitude(), $this->getPoint()->getLongitude());
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     *
+     * @param PreUpdateEventArgs $eventArgs
+     */
+    public function preUpdate( $eventArgs)
+    {
+        if ($eventArgs->hasChangedField('latitude') || $eventArgs->hasChangedField('longitude')){
+            $options = $this->point->toArray();
+            unset($this->point);
+
+            $this->point = $this->createPoint([
+                'lat' => $this->getLatitude(),
+                'lng' => $this->getLongitude(),
+                'srid' => Location::SRID,
+            ]);
+        }
     }
 }

@@ -1,0 +1,38 @@
+<script>
+    var map;
+    function initMap() {
+        $('.location-wrapper').each(function () {
+            var _wrapper = $(this);
+            var _lat = _wrapper.find('.latitude');
+            var _lng = _wrapper.find('.longitude');
+            var initialPosition = {
+                lat: _wrapper.find('.map').data('lat'),
+                lng: _wrapper.find('.map').data('lng')
+            };
+
+            var map = new google.maps.Map(_wrapper.find('.map')[0], {
+                center: initialPosition,
+                zoom: 12
+            });
+            var marker = new google.maps.Marker({
+                draggable: true,
+                map: map,
+                position: initialPosition,
+                title: 'Click to zoom'
+            });
+            function handleEvent(event) {
+                initialPosition.lat = event.latLng.lat();
+                initialPosition.lng = event.latLng.lng();
+
+                _lat.val(initialPosition.lat);
+                _lng.val(initialPosition.lng);
+            }
+
+            marker.addListener('drag', handleEvent);
+            marker.addListener('dragend', handleEvent);
+        });
+    }
+</script>
+<script
+        src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+</script>

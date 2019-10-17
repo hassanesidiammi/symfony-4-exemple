@@ -10,7 +10,7 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
 
         types:
-            point:      CrEOF\Spatial\DBAL\Types\Geometry\PointType
+            point: CrEOF\Spatial\DBAL\Types\Geometry\PointType
 
 
     orm:

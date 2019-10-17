@@ -1,0 +1,16 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block entity_form %}
+    <div class="container location-wrapper">
+        {{ form_start(form) }}
+        {% include 'includes/_latlng.html.twig' %}
+        <div class="order-1 col-md-6">
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock entity_form %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    {% include 'includes/_latlng_js.html.twig' %}
+{% endblock body_javascript %}

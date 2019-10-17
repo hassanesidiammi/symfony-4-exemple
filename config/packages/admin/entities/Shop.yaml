@@ -10,5 +10,10 @@ easy_admin:
               - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-outline-success' }
               - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-outline-danger' }
            form:
-             fields: ['title', 'description', 'location']
-             max_results: 10
+             fields:
+               - title
+               - description
+               - {property: 'description', type: textarea}
+               - {property: 'location', type: App\Form\LocationType}
+           templates:
+             edit: 'backend/admin/Shop.html.twig'

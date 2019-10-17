@@ -22,6 +22,7 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Location", cascade={"persist"})
+     * @var Location
      */
     protected $location;
 
@@ -40,6 +41,7 @@ class User extends BaseUser
         $this->favoriteShops = new ArrayCollection();
         $this->dislikedShops = new ArrayCollection();
         $this->roles = [];
+        $this->location = new Location();
     }
 
     /**

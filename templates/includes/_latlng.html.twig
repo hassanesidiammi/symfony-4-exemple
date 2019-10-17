@@ -1,0 +1,17 @@
+<div class="order-2 col-md-6 offset-md-1 float-right">
+    <div class="form-row mb-3">
+        {{- form_errors(form.location.latitude) -}}
+        {{- form_label(form.location.latitude, null, {'label_attr': {'class': 'col-md-3'}}) -}}
+        {{- form_widget(form.location.latitude, {'attr': {'class': 'col-md-9 latitude'}}) -}}
+        {{- form_help(form.location.latitude) -}}
+    </div>
+    <div class="form-row mb-3">
+        {{- form_errors(form.location.longitude) -}}
+        {{- form_label(form.location.longitude, null, {'label_attr': {'class': 'col-md-3'}}) -}}
+        {{- form_widget(form.location.longitude, {'attr': {'class': 'col-md-9 longitude'}}) -}}
+        {{- form_help(form.location.longitude) -}}
+    </div>
+    <div class="map col-12" style="height: 400px;" id="map" data-lat="{{ form.location.latitude.vars.value }}" data-lng="{{ form.location.longitude.vars.value }}">
+
+    </div>
+</div>
