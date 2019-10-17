@@ -39,6 +39,7 @@ class User extends BaseUser
     {
         $this->favoriteShops = new ArrayCollection();
         $this->dislikedShops = new ArrayCollection();
+        $this->roles = [];
     }
 
     /**
@@ -110,7 +111,7 @@ class User extends BaseUser
             return $favShop->getShop()->getId();
         }, $this->getFavoriteShops()->toArray());
 
-        return in_array($shop->getId(), $shopsId);
+        return !empty($shopsId) && in_array($shop->getId(), $shopsId);
     }
 
     /**

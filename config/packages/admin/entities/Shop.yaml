@@ -1,0 +1,14 @@
+easy_admin:
+    entities:
+       Shop:
+           class: App\Entity\Shop
+           list:
+             title: "Manage %%entity_label%%s"
+             fields: ['id', 'title', 'location', 'createdAt', {property: 'favoriteShops', label: 'Likes'}, {property: 'dislikedShop', label: 'dislikes'}]
+             max_results: 10
+             actions:
+              - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-outline-success' }
+              - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-outline-danger' }
+           form:
+             fields: ['title', 'description', 'location']
+             max_results: 10

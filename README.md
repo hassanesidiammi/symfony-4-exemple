@@ -47,5 +47,10 @@ bin/console c:c
 ```
 
 ## connect to your new Shop site :)
+### Simple user
 * username: h.sidiammi@gmail.com
 * password: hassane
+
+### Admin user
+* username: admin
+* password: admin

@@ -76,4 +76,9 @@ class Location
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return sprintf('%s, %s',$this->getPoint()->getLatitude(), $this->getPoint()->getLongitude());
+    }
 }

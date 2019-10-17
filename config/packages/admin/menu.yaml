@@ -1,0 +1,11 @@
+easy_admin:
+    design:
+      menu:
+        - label: 'Front'
+          url: '/'
+          icon: arrow-left
+        - label: 'Admin'
+          icon: 'cogs'
+          children:
+            - {entity: User, icon: 'users', label: 'Users'}
+            - {entity: Shop, icon: 'shopping-basket', label: 'Shop'}

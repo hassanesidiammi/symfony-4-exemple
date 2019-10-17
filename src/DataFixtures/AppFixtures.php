@@ -31,21 +31,41 @@ class AppFixtures extends Fixture
 
     protected function loadUser(ObjectManager $manager)
     {
-        $location = new Location([
-            'lat' => 33.574308,
-            'lng' => -7.624561,
-        ]);
-        $user = new User();
-        $user->setUsername('hassane')
-            ->setEmail('h.sidiammi@gmail.com')
-            ->setEmail('h.sidiammi@gmail.com')
-            ->setLocation($location)
-            ->setPlainPassword('hassane')
-            ->setEnabled(true)
-            ->addRole('ROLE_USER')
-        ;
+        $users = [
+            'admin user' => [
+                'username' => 'admin',
+                'mail' => 'admin@exemple.com',
+                'password' => 'admin',
+                'role' => 'ROLE_ADMIN',
+                'lat' =>  31.574308,
+                'lng' =>  -5.624561,
+            ],
+            'simple user' => [
+                'username' => 'hassane',
+                'mail' => 'h.sidiammi@gmail.com',
+                'password' => 'hassane',
+                'role' => 'ROLE_USER',
+                'lat' =>  33.574308,
+                'lng' =>  -7.624561,
+            ],
+        ];
 
-        $manager->persist($user);
+        foreach ($users as $item) {
+            $location = new Location([
+                'lat' => $item['lat'],
+                'lng' => $item['lng'],
+            ]);
+            $user = new User();
+            $user->setUsername($item['username'])
+                ->setEmail($item['mail'])
+                ->setLocation($location)
+                ->setPlainPassword($item['password'])
+                ->setEnabled(true)
+                ->addRole($item['role'])
+            ;
+
+            $manager->persist($user);
+        }
     }
 
     protected function loadShop(ObjectManager $manager)
@@ -53,7 +73,7 @@ class AppFixtures extends Fixture
         for($i=0; $i<12; $i++){
             $shop = new Shop();
             $shop->setTitle($this->knpUIpsum->getWords(rand(2, 3)));
-            $shop->setDesription($this->knpUIpsum->getParagraphs(rand(2, 4)));
+            $shop->setDescription($this->knpUIpsum->getParagraphs(rand(2, 4)));
             $location = new Location([
                 'lat' => rand(2000000, 3500000)/100000,
                 'lng' => rand(-1700000, -400000)/100000,

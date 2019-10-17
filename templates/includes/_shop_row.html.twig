@@ -1,6 +1,6 @@
 <div class="col-lg-3 col-md-4 mt-3 mb-3 pb-5 shop">
     <h3 class="h6 font-weight-bold my-2 text-center">{{ shop.title }}</h3>
-    <p>{{ shop.desription }}</p>
+    <p>{{ shop.description }}</p>
     <div class="position-absolute fixed-bottom text-center shop-btn mx-2">
         {% block btns %}
             <a class="btn btn-sm btn-outline-danger w-25 mr-4 {{ shop_btn_class }}" href="{{ path('shop_dislike', {id: shop.id}) }}" role="button">{{ 'Dislike' }}</a>

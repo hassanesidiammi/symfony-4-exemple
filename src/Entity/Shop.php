@@ -29,7 +29,7 @@ class Shop
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $desription;
+    private $description;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Location", cascade={"persist"})
@@ -68,14 +68,14 @@ class Shop
         return $this;
     }
 
-    public function getDesription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->desription;
+        return $this->description;
     }
 
-    public function setDesription(string $desription): self
+    public function setDescription(string $description): self
     {
-        $this->desription = $desription;
+        $this->description = $description;
 
         return $this;
     }
@@ -84,6 +84,44 @@ class Shop
     {
         return $this->location;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFavoriteShops()
+    {
+        return $this->favoriteShops;
+    }
+
+    /**
+     * @param mixed $favoriteShops
+     * @return Shop
+     */
+    public function setFavoriteShops($favoriteShops)
+    {
+        $this->favoriteShops = $favoriteShops;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDislikedShop()
+    {
+        return $this->dislikedShop;
+    }
+
+    /**
+     * @param mixed $dislikedShop
+     * @return Shop
+     */
+    public function setDislikedShop($dislikedShop)
+    {
+        $this->dislikedShop = $dislikedShop;
+        return $this;
+    }
+
+
 
     public function setLocation(Location $location): self
     {

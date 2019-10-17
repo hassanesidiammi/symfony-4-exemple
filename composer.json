@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "creof/doctrine2-spatial": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "^3.2",
+        "easycorp/easyadmin-bundle": "^2.3",
         "friendsofsymfony/user-bundle": "^2.1",
         "knpuniversity/lorem-ipsum-bundle": "^1.0",
         "sensio/framework-extra-bundle": "^5.4",

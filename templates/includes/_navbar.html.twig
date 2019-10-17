@@ -20,6 +20,13 @@
                         {{ 'Prefered Sops'|trans({}, 'FOSUserBundle') }}
                     </a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item ml-2{{ 'easyadmin' == app.request.get('_route') ? ' active' : ''}}">
+                    <a class="nav-link" href="{{path('easyadmin')}}">
+                        {{ 'administration'|trans({}) }}
+                    </a>
+                </li>
+                {% endif %}
             </ul>
             {% endif %}
             <ul class="navbar-nav ml-auto mr-6">
